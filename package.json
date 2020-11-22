@@ -1,0 +1,87 @@
+{
+  "name": "glorifiers-server-mysql",
+  "version": "1.0.0",
+  "description": "Express-Babel-Setup - A simple express startoff template setup with babel, eslint, sequelize",
+  "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf dist && mkdir dist",
+    "build-server": "babel src --out-dir dist",
+    "build": "npm run clean && npm run build-server",
+    "start:dev": "cross-env NODE_ENV=development nodemon ./src/app.js --exec babel-node",
+    "start": "cross-env NODE_ENV=production node dist/app.js",
+    "migrate": "sequelize db:migrate",
+    "undo:migrate": "sequelize db:migrate:undo:all",
+    "seed": "sequelize db:seed:all",
+    "test": "cross-env NODE_ENV=test nyc mocha --timeout 50000 --require @babel/register src/tests/ --exit || true",
+    "coverage": "nyc npm test && nyc report --reporter=text-lcov > coverage.lcov && codecov"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/fegoworks/glorifiers-server-mysql.git"
+  },
+  "keywords": [
+    "express",
+    "node",
+    "node.js",
+    "postgres",
+    "postgresql",
+    "es6",
+    "es7",
+    "es8",
+    "es2017",
+    "mocha",
+    "istanbul",
+    "nyc",
+    "eslint",
+    "codecov",
+    "REST",
+    "API",
+    "ewallet"
+  ],
+  "author": "Edafe Oghenefego",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/fegoworks/express-babel-setup-template/issues"
+  },
+  "homepage": "https://github.com/fegoworks/express-babel-setup-template#readme",
+  "devDependencies": {
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
+    "codecov": "^3.7.0",
+    "coveralls": "^3.1.0",
+    "eslint": "^6.8.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.0",
+    "mocha": "^7.2.0",
+    "nyc": "^15.1.0",
+    "sinon": "^9.0.2",
+    "supertest": "^4.0.2"
+  },
+  "dependencies": {
+    "@babel/cli": "^7.10.4",
+    "@babel/core": "^7.10.4",
+    "@babel/node": "^7.10.4",
+    "@babel/plugin-transform-runtime": "^7.10.4",
+    "@babel/preset-env": "^7.10.4",
+    "@babel/runtime": "^7.10.4",
+    "@hapi/joi": "^17.1.0",
+    "axios": "^0.19.2",
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.19.0",
+    "cookie-parser": "^1.4.4",
+    "core-js": "^3.6.5",
+    "cross-env": "^7.0.2",
+    "dotenv": "^8.2.0",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "multer": "^1.4.2",
+    "pg": "^7.18.1",
+    "pg-hstore": "^2.3.3",
+    "sequelize": "^5.22.3",
+    "sequelize-cli": "^5.5.1",
+    "uuidv4": "^6.1.1"
+  },
+  "engines": {
+    "node": "10.x"
+  }
+}
