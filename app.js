@@ -12,7 +12,7 @@ const port = process.env.PORT || 3000;
 const app = express();
 
 if (process.env.NODE.ENV !== "production") {
-  app.use(morgan("dev"));
+  app.use(morgan("combined"));
 }
 
 app.use((req, res, next) => {

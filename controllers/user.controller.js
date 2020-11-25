@@ -4,7 +4,7 @@
  * @format
  */
 
-import { User } from '../models';
+import { User } from "../models";
 import {
   generateToken,
   handleErrorResponse,
@@ -12,7 +12,7 @@ import {
   pickModelAttibutes,
   comparePassword,
   pickUser,
-} from '../helpers/utils';
+} from "../helpers/utils";
 
 /**
  * @description User Controller
@@ -36,7 +36,8 @@ class UserController {
       });
       newUser = pickUser(user.dataValues);
     } catch (e) {
-      if (e.original.code === '23505') {
+      console.log({ e });
+      if (e.original.code === "23505") {
         return handleErrorResponse(res, e.original.detail, 409);
       }
       return handleErrorResponse(res, e, 500);
@@ -64,12 +65,12 @@ class UserController {
       });
 
       if (!isUser) {
-        const error = 'This email does not exist';
+        const error = "This email does not exist";
         return handleErrorResponse(res, error, 404);
       }
       const isMatch = comparePassword(password, isUser.password);
       if (!isMatch) {
-        return handleErrorResponse(res, 'Wrong Password', 401);
+        return handleErrorResponse(res, "Wrong Password", 401);
       }
       const token = generateToken({
         id: isUser.id,
@@ -77,7 +78,7 @@ class UserController {
         isAdmin: isUser.isAdmin,
       });
 
-      res.cookie('access_token', token, {
+      res.cookie("access_token", token, {
         maxAge: 60 * 60 * 1000, // 1 hour
         httpOnly: true,
         secure: true,
@@ -85,13 +86,14 @@ class UserController {
       });
 
       return res.status(200).json({
-        status: 'success',
+        status: "success",
         message: `Welcome ${isUser.firstName}`,
         data: {
           userId: isUser.id,
           firstName: isUser.firstName,
           lastName: isUser.lastName,
           email: isUser.email,
+          phoneNumber: isUser.phoneNumber,
         },
         token,
       });

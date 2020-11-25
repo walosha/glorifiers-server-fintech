@@ -19,7 +19,7 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
       },
       phoneNumber: {
-        type: DataTypes.NUMBER,
+        type: DataTypes.STRING,
         unique: true,
         required: true,
       },

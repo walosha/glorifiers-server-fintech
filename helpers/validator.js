@@ -23,13 +23,13 @@ const validator = {
         .lowercase()
         .error(new Error("First Name is required")),
       lastName: Joi.string()
-        .regex(/^[a-zA-Z\\-]*$/)
+        .regex(/^[a-zA-Z]*$/)
         .required()
         .trim()
         .lowercase()
         .error(new Error("Last Name is required")),
       phoneNumber: Joi.string()
-        .regex(/^(\+?91|0)?[6789]\d{9}$/)
+        .length(11)
         .required()
         .error(new Error("Phone Number is required")),
       email: Joi.string()
