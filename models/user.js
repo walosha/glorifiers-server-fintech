@@ -50,12 +50,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "id",
       as: "transactionId",
     });
-
     User.hasOne(models.Wallet, {
       foreignKey: "id",
       as: "walletId",
     });
-
     User.beforeCreate(async (newUser) => {
       newUser.password = "" || hashPassword(newUser.password);
     });
