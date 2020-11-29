@@ -50,8 +50,9 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "id",
       as: "transactionId",
     });
+
     User.hasOne(models.Wallet, {
-      foreignKey: "id",
+      foreignKey: "customerId",
       as: "walletId",
     });
     User.beforeCreate(async (newUser) => {

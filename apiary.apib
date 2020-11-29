@@ -38,6 +38,22 @@ Sign Up to the Application takes a JSON object containing user credentials
                             "phoneNumber": "08185431319",
                             "updatedAt": "2020-07-06T23:40:30.417Z",
                             "createdAt": "2020-07-06T23:40:30.417Z"
+                        } Response 201 (application/json)
+    + Headers
+        Cookie: sid
+    
+    + body
+
+            {
+                "status": "success",
+                "data": {                        
+                            "id": "4d21f615-54b6-466f-a96d-cd486af02fec",
+                            "firstName": "fego",
+                            "lastName": "edafe",
+                            "email": "fego@mail.com",
+                            "phoneNumber": "08185431319",
+                            "updatedAt": "2020-07-06T23:40:30.417Z",
+                            "createdAt": "2020-07-06T23:40:30.417Z"
                         }
             }
     
@@ -48,41 +64,6 @@ Sign Up to the Application takes a JSON object containing user credentials
 Sign In to the Application takes a JSON object containing user credentials
 
 + Request (application/json)
-
-            {
-                "email": "fego@mail.com",
-                "password": "password",
-            }
-+ response 200 (application/json)
-    + Headers
-        Cookie: sid
-    
-    + body
-            {
-                "status": "success",
-                "message": "Welcome fego",
-                "data": {
-                            "userId": "4d21f615-54b6-466f-a96d-cd486af02fec",
-                            "firstName": "fego",
-                            "lastName": "edafe",
-                            "email": "fego@mail.com"
-                        },
-                "token": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjRkMjFmNjE1LTU0YjYtNDY2Zi1hOTZkLWNkNDg2YWYwMmZlYyIsImVtYWlsIjoiZmVnb0BtYWlsLmNvbSIsImlzQWRtaW4iOmZhbHNlLCJpYXQiOjE1OTQwNzk0OTIsImV4cCI6MTU5NDA4NjY5Mn0.5qi2mRRhNiYv83z7IZxENv__bpcXmjkEQlssLT9hOzc"
-            }
-    
-# Fund Account [/api/v1/fundAccount]
-
-### Fund [POST]
-Fund Account takes a JSON object containing debit card details. Funding an account automatically creates a wallet
-
-+ Request (application/json)
-
-            {
-                "amount": "15500000",
-                "cvv": "408",
-                "number": "4084084084084081",
-                "expiry_month": "01",
-                "expiry_year": "2099"
             }
 
 + Response 201 (application/json)

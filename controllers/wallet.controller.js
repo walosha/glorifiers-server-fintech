@@ -4,15 +4,9 @@
  * @format
  */
 
-import {
-  Wallet,
-  Transaction
-} from '../models';
-import {
-  handleErrorResponse,
-  handleSuccessResponse,
-} from '../helpers/utils';
-import transferService from '../services/transfer.service';
+import { Wallet, Transaction } from "../models";
+import { handleErrorResponse, handleSuccessResponse } from "../helpers/utils";
+import transferService from "../services/transfer.service";
 /**
  * @description wallet Controller
  * @class walletController
@@ -29,7 +23,11 @@ class WalletController {
   static async transferToWallet(req, res) {
     try {
       const customerId = req.id;
-      const transfer = await transferService(req.body.amount, req.body.accountNumber, customerId);
+      const transfer = await transferService(
+        req.body.amount,
+        req.body.accountNumber,
+        customerId
+      );
       return handleSuccessResponse(res, transfer, 201);
     } catch (error) {
       return handleErrorResponse(res, error, 500);
@@ -49,8 +47,8 @@ class WalletController {
       const customerId = req.id || req.params.id;
       const wallet = await Wallet.findOne({
         where: {
-          customerId
-        }
+          customerId,
+        },
       });
       return handleSuccessResponse(res, wallet, 200);
     } catch (error) {
@@ -68,13 +66,11 @@ class WalletController {
    */
   static async getWalletTransactions(req, res) {
     try {
-      const {
-        accountNumber
-      } = req.params;
+      const { accountNumber } = req.params;
       const transactions = await Transaction.findAll({
         where: {
-          accountNumber
-        }
+          accountNumber,
+        },
       });
       return handleSuccessResponse(res, transactions, 200);
     } catch (error) {

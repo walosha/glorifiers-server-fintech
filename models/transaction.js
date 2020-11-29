@@ -8,12 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
         primaryKey: true,
       },
-      accountNumber: {
+      amount: {
         type: DataTypes.DOUBLE,
         required: true,
-        unique: true,
       },
-      amount: {
+      accountNumber: {
         type: DataTypes.DOUBLE,
         required: true,
       },

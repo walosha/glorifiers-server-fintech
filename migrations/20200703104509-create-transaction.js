@@ -2,17 +2,15 @@ module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable("Transactions", {
       id: {
-        allowNull: false,
-        primaryKey: true,
         type: Sequelize.UUID,
-        unique: true,
-      },
-      accountNumber: {
-        type: Sequelize.DOUBLE,
         required: true,
-        unique: true,
+        primaryKey: true,
       },
       amount: {
+        type: Sequelize.DOUBLE,
+        required: true,
+      },
+      accountNumber: {
         type: Sequelize.DOUBLE,
         required: true,
       },

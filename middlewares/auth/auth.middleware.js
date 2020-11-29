@@ -10,7 +10,6 @@ export const verifyToken = {
       return handleErrorResponse(res, "No token provided.", 403);
     }
     const token = req.headers.authorization.split(" ")[1];
-
     jwt.verify(token, secret, (err, decoded) => {
       if (err) {
         return handleErrorResponse(res, "Failed to authenticate token.", 500);

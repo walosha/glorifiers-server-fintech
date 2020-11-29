@@ -3,33 +3,34 @@ module.exports = {
     queryInterface.createTable("Wallets", {
       id: {
         type: Sequelize.UUID,
-        defaultValue: Sequelize.UUIDV4,
-        allowNull: false,
+        required: true,
         primaryKey: true,
+      },
+      accountNumber: {
+        type: Sequelize.DOUBLE,
+        required: true,
+        unique: true,
       },
       customerId: {
         type: Sequelize.UUID,
+        unique: true,
         allowNull: false,
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
         references: {
-          model: "User",
+          model: "Users",
           key: "id",
           as: "customerId",
         },
       },
-      accountNumber: {
-        type: Sequelize.DOUBLE,
-        allowNull: false,
-        unique: true,
-      },
       balance: {
         type: Sequelize.DOUBLE,
-        allowNull: false,
+        required: true,
       },
       type: {
         type: Sequelize.ENUM(["customer", "company"]),
-        allowNull: false,
+        required: true,
+        defaultValue: "customer",
       },
       createdAt: {
         allowNull: false,

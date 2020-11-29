@@ -4,11 +4,8 @@
  * @format
  */
 
-import {
-  handleErrorResponse,
-  handleSuccessResponse,
-} from '../helpers/utils';
-import fundingService from '../services/funding.service';
+import { handleErrorResponse, handleSuccessResponse } from "../helpers/utils";
+import fundingService from "../services/funding.service";
 /**
  * @description Funding Controller
  * @class FundingController
@@ -28,6 +25,7 @@ class FundingController {
       const funding = await fundingService(customerId, req.email, req.body);
       return handleSuccessResponse(res, funding, 201);
     } catch (error) {
+      console.log({ FundingController: error });
       return handleErrorResponse(res, error, 500);
     }
   }

@@ -8,12 +8,13 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
         primaryKey: true,
       },
-      customerId: {
-        type: DataTypes.UUID,
-        required: true,
-      },
       accountNumber: {
         type: DataTypes.DOUBLE,
+        required: true,
+        unique: true,
+      },
+      customerId: {
+        type: DataTypes.UUID,
         required: true,
         unique: true,
       },
