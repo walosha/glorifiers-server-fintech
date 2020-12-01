@@ -1,7 +1,9 @@
 /* eslint-disable indent */
 import express from "express";
+import morgan from "morgan";
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+const cron = require("node-cron");
 import env from "dotenv";
 import userRoute from "./routes/user.route";
 import walletRoute from "./routes/wallet.route";
@@ -9,7 +11,10 @@ import transactionRoute from "./routes/transaction.route";
 import loanRoute from "./routes/loan.route";
 import fundingRoute from "./routes/funding.route";
 
-import morgan from "morgan";
+cron.schedule("15 * * * * *", function () {
+  console.log("---------------------");
+  console.log("Running Cron Job");
+});
 
 env.config();
 const port = process.env.PORT || 3000;

@@ -94,6 +94,7 @@ class UserController {
           lastName: isUser.lastName,
           email: isUser.email,
           phoneNumber: isUser.phoneNumber,
+          image: isUser.image,
         },
         token,
       });
