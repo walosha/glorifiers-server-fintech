@@ -17,7 +17,14 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
       },
       type: {
-        type: DataTypes.ENUM(["transfer", "debit", "funding", "loan"]),
+        type: DataTypes.ENUM([
+          "transfer",
+          "debit",
+          "funding",
+          "loan",
+          "charges",
+          "interestOnLoan",
+        ]),
         required: true,
       },
       narration: {

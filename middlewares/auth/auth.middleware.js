@@ -1,6 +1,7 @@
 /* eslint-disable operator-linebreak */
 import jwt from "jsonwebtoken";
 import { handleErrorResponse } from "../../helpers/utils";
+import { request } from "express";
 
 const secret = process.env.SECRET;
 

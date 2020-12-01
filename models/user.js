@@ -23,6 +23,11 @@ module.exports = (sequelize, DataTypes) => {
         unique: true,
         required: true,
       },
+      image: {
+        type: DataTypes.STRING,
+        defaultValue:
+          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+      },
       email: {
         type: DataTypes.STRING,
         unique: true,

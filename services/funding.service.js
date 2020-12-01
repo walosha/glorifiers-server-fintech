@@ -20,7 +20,7 @@ const fundingService = async (customerId, email, body) => {
     const response = await initiatePayment(email, body);
     let { reference, amount } = response.data;
 
-    //convert to naira
+    //convert kobo to naira
     amount /= 100;
     const funding = await Funding.create({
       customerId,

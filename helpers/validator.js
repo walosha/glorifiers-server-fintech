@@ -29,7 +29,7 @@ const validator = {
         .lowercase()
         .error(new Error("Last Name is required")),
       phoneNumber: Joi.string()
-        .length(11)
+        .regex(/^(\+?91|0)?[6789]\d{9}$/)
         .required()
         .error(new Error("Phone Number is required")),
       email: Joi.string()
@@ -41,6 +41,31 @@ const validator = {
       password: Joi.string()
         .required()
         .error(new Error("Password is required")),
+    }),
+
+    loanSchema: Joi.object().keys({
+      description: Joi.string()
+        .required()
+        .trim()
+        .lowercase()
+        .error(new Error("Description is required")),
+      amount: Joi.number()
+        .required()
+        .error(new Error("A Loan amount  is required")),
+      installements: Joi.number()
+        .integer()
+        .max(12)
+        .min(1)
+        .required()
+        .error(new Error("A installements is required")),
+      guarantor1: Joi.string()
+        .guid()
+        .required()
+        .error(new Error("A guarantor1 is required")),
+      guarantor2: Joi.string()
+        .guid()
+        .required()
+        .error(new Error("A guarantor2 is required")),
     }),
 
     authLoginSchema: Joi.object().keys({

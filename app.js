@@ -5,6 +5,10 @@ import cookieParser from "cookie-parser";
 import env from "dotenv";
 import userRoute from "./routes/user.route";
 import walletRoute from "./routes/wallet.route";
+import transactionRoute from "./routes/transaction.route";
+import loanRoute from "./routes/loan.route";
+import fundingRoute from "./routes/funding.route";
+
 import morgan from "morgan";
 
 env.config();
@@ -40,6 +44,9 @@ app.use(cookieParser());
 // Routes here
 app.use("/api/v1/", userRoute);
 app.use("/api/v1/", walletRoute);
+app.use("/api/v1/", loanRoute);
+app.use("/api/v1/", transactionRoute);
+app.use("/api/v1/", fundingRoute);
 
 app.get("/", (req, res) => {
   res.send(`<h1>Welcome to the eWallet Application</h1>

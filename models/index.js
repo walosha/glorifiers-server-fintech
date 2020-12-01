@@ -10,6 +10,7 @@ const db = {};
 
 const sequelize = new Sequelize(process.env.POSTGRESQL_DATABASE_URL, {
   dialect: "postgres",
+  rejectUnauthorized: false,
   dialectOptions: {
     ssl: true,
   },
@@ -40,6 +41,6 @@ Object.keys(db).forEach((modelName) => {
 
 db.sequelize = sequelize;
 db.Sequelize = Sequelize;
-db.sequelize.sync();
+db.sequelize.sync().then(console.log);
 
 module.exports = db;
