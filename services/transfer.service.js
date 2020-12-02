@@ -1,6 +1,7 @@
 import { Transaction, Wallet } from "../models";
 
-const transferService = async (amount, accountNumber, customerId) => {
+
+https: const transferService = async (amount, accountNumber, customerId) => {
   try {
     const wallet = await Wallet.findOne({
       where: {

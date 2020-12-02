@@ -15,10 +15,9 @@ router.get(
 );
 
 router.get(
-  "/transactions/:accountNumber",
+  "/last-3-transaction",
   verifyToken.verify,
-  validateAdmin,
-  TransactionController.getAllTransaction
+  TransactionController.last3Transaction
 );
 
 export default router;

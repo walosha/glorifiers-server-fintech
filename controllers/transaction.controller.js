@@ -41,6 +41,37 @@ class TransctionController {
    * @returns {object} wallet
    * @member TransctionController
    */
+  static async last3Transaction(req, res) {
+    try {
+      const { id } = req;
+      const wallet = await Wallet.findOne({
+        where: {
+          customerId: id,
+        },
+      });
+
+      if (wallet === null) return handleSuccessResponse(res, wallet, 200);
+      const last3Transactios = await Transaction.findAll({
+        where: {
+          accountNumber: wallet.accountNumber,
+        },
+        limit: 3,
+        order: [["updatedAt", "DESC"]],
+      });
+
+      return handleSuccessResponse(res, last3Transactios, 200);
+    } catch (error) {
+      return handleErrorResponse(res, error, 500);
+    }
+  }
+  /**
+   * @description View Wallet
+   * @static
+   * @param {object} req
+   * @param {object} res
+   * @returns {object} wallet
+   * @member TransctionController
+   */
   static async getAllTransaction(req, res) {
     try {
       const { accountNumber } = req.params;
