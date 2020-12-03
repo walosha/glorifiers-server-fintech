@@ -75,18 +75,16 @@ class UserController {
         },
       });
 
-      console.log({ isUser });
-
       if (!isUser) {
         return handleErrorResponse(res, "This user does not Exist", 404);
       }
-
-      console.log({ body: req.body });
 
       const updatedProfile = await User.update(
         { image: req.body.image },
         { where: { id } }
       );
+
+      console.log({ updatedProfile });
 
       return handleSuccessResponse(res, updatedProfile, 201);
     } catch (error) {
