@@ -81,7 +81,7 @@ class UserController {
 
       const updatedUser = await isUser.update({ image: req.body.image });
 
-      console.log({ updatedUser });
+      updatedUser.password = undefined;
 
       return handleSuccessResponse(res, updatedUser, 201);
     } catch (error) {
