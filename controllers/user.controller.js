@@ -79,14 +79,11 @@ class UserController {
         return handleErrorResponse(res, "This user does not Exist", 404);
       }
 
-      const updatedProfile = await User.update(
-        { image: req.body.image },
-        { where: { id } }
-      );
+      const updatedUser = await isUser.update({ image: req.body.image });
 
-      console.log({ updatedProfile });
+      console.log({ updatedUser });
 
-      return handleSuccessResponse(res, updatedProfile, 201);
+      return handleSuccessResponse(res, updatedUser, 201);
     } catch (error) {
       return handleErrorResponse(res, "upload failed", 404);
     }
