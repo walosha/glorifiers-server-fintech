@@ -83,7 +83,7 @@ class UserController {
 
       console.log({ body: req.body });
 
-      const updatedProfile = await Project.update(
+      const updatedProfile = await User.update(
         { image: req.body.image },
         { where: { id } }
       );
