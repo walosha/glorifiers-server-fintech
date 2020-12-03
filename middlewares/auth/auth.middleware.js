@@ -15,6 +15,8 @@ export const verifyToken = {
       if (err) {
         return handleErrorResponse(res, "Failed to authenticate token.", 500);
       }
+      console.log({ auth: decoded });
+
       req.id = decoded.id;
       req.email = decoded.email;
       req.isAdmin = decoded.isAdmin;

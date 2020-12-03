@@ -5,6 +5,8 @@
  */
 
 import { User } from "../models";
+const aws = require("aws-sdk");
+const { v4: uuidv4 } = require("uuid");
 import {
   generateToken,
   handleErrorResponse,
@@ -13,6 +15,11 @@ import {
   comparePassword,
   pickUser,
 } from "../helpers/utils";
+
+const S3 = new aws.S3({
+  accessKeyId: process.env.AMAZON_ACCESS_KEY,
+  secretAccessKey: process.env.AMAZON_SECRET_KEY,
+});
 
 /**
  * @description User Controller
@@ -43,6 +50,46 @@ class UserController {
       return handleErrorResponse(res, e, 500);
     }
     return handleSuccessResponse(res, newUser, 201);
+  }
+
+  static async getSignedUrl(req, res, next) {
+    const Key = `${req.id}/${uuidv4()}.jpg`;
+    // Client should use "PUT" request
+    S3.getSignedUrl(
+      "putObject",
+      {
+        Bucket: "glorifiers",
+        ContentType: "image/png",
+        Key,
+      },
+      (err, url) => res.send({ Key, url })
+    );
+  }
+
+  static async uploadProfileImg(req, res, next) {
+    try {
+      const { id } = req;
+      const isUser = await User.findOne({
+        where: {
+          id,
+        },
+      });
+
+      if (!isUser) {
+        return handleErrorResponse(res, "This user does not Exist", 404);
+      }
+
+      console.log({ body: req.body });
+
+      const updatedProfile = await Project.update(
+        { image: req.body.image },
+        { where: { id } }
+      );
+
+      return handleSuccessResponse(res, updatedProfile, 201);
+    } catch (error) {
+      return handleErrorResponse(res, "upload failed", 404);
+    }
   }
 
   /**
