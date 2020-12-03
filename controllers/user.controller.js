@@ -75,6 +75,8 @@ class UserController {
         },
       });
 
+      console.log({ isUser });
+
       if (!isUser) {
         return handleErrorResponse(res, "This user does not Exist", 404);
       }

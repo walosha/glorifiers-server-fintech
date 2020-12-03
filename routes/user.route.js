@@ -16,7 +16,7 @@ router.post(
   UserController.signIn
 );
 
-router.get("/upload", verifyToken.verify, UserController.getSignedUrl);
+router.get("/getSignedUrl", verifyToken.verify, UserController.getSignedUrl);
 
 router.patch(
   "/uploadProfileImg",
