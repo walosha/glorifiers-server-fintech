@@ -24,4 +24,10 @@ router.patch(
   UserController.uploadProfileImg
 );
 
+router.get(
+  "/verifyAccountNo/:accountNumber",
+  verifyToken.verify,
+  UserController.verifyAccountNo
+);
+
 export default router;

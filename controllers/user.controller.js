@@ -4,7 +4,7 @@
  * @format
  */
 
-import { User } from "../models";
+import { User, Wallet } from "../models";
 const aws = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
 import {
@@ -15,6 +15,7 @@ import {
   comparePassword,
   pickUser,
 } from "../helpers/utils";
+import wallet from "../models/wallet";
 
 const S3 = new aws.S3({
   accessKeyId: process.env.AMAZON_ACCESS_KEY,
@@ -86,6 +87,24 @@ class UserController {
       return handleSuccessResponse(res, updatedUser, 201);
     } catch (error) {
       return handleErrorResponse(res, "upload failed", 404);
+    }
+  }
+
+  static async verifyAccountNo(req, res, next) {
+    try {
+      const { accountNumber } = req.params;
+      const wallet = await Wallet.findOne({ where: { accountNumber } });
+      if (!wallet) {
+        return handleErrorResponse(res, "Account Number does not Exist", 404);
+      }
+      const { firstName, lastName } = await User.findOne({
+        where: { id: wallet.customerId },
+      });
+
+      return handleSuccessResponse(res, { firstName, lastName }, 201);
+    } catch (error) {
+      console.log({ error });
+      return handleErrorResponse(res, "Try again later", 404);
     }
   }
 
