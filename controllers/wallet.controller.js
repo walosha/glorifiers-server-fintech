@@ -44,7 +44,7 @@ class WalletController {
    */
   static async getWallet(req, res) {
     try {
-      const customerId = req.id || req.params.id;
+      const customerId = req.id;
       const wallet = await Wallet.findOne({
         where: {
           customerId,

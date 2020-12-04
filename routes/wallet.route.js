@@ -12,11 +12,7 @@ router.post(
   WalletController.transferToWallet
 );
 
-router.get(
-  "/wallets/:customerId",
-  verifyToken.verify,
-  WalletController.getWallet
-);
+router.get("/wallets", verifyToken.verify, WalletController.getWallet);
 
 router.get(
   "/transactions/:accountNumber",
