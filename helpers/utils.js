@@ -36,7 +36,7 @@ export const handleErrorResponse = (res, error, statusCode = 400) =>
  */
 export const generateToken = (
   payload,
-  tokenExpiryDate = "90d",
+  tokenExpiryDate = process.env.TOKEN_EXPIRY_DATE,
   secret = process.env.SECRET
 ) =>
   jwt.sign(payload, secret, {
