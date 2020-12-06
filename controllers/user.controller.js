@@ -60,7 +60,7 @@ class UserController {
       "putObject",
       {
         Bucket: "glorifiers",
-        ContentType: "image/png",
+        ContentType: "image/jpeg",
         Key,
       },
       (err, url) => res.send({ Key, url })

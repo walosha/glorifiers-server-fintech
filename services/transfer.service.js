@@ -1,6 +1,7 @@
 import { Transaction, Wallet } from "../models";
+import appError from "../helpers/appError";
 
-const transferService = async (amount, accountNumber, customerId) => {
+const transferService = async (amount, accountNumber, customerId, next) => {
   try {
     const wallet = await Wallet.findOne({
       where: {
@@ -15,12 +16,7 @@ const transferService = async (amount, accountNumber, customerId) => {
     });
 
     if (receivingWallet === null) {
-      return Promise.reject(
-        new Error({
-          message: "Account number does not exist",
-          status: 404,
-        })
-      );
+      return next(new appError("Account number does not exist", 404));
     }
 
     if (wallet.balance > amount) {
@@ -50,10 +46,7 @@ const transferService = async (amount, accountNumber, customerId) => {
     }
 
     return Promise.reject(
-      new Error({
-        message: "Insufficient funds in wallet",
-        status: 400,
-      })
+      next(new appError("Insufficient funds in wallet", 404))
     );
   } catch (error) {
     return Promise.reject(error);

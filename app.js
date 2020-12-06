@@ -10,6 +10,7 @@ import walletRoute from "./routes/wallet.route";
 import transactionRoute from "./routes/transaction.route";
 import loanRoute from "./routes/loan.route";
 import fundingRoute from "./routes/funding.route";
+import globalErrorController from "./controllers/error.controller";
 
 cron.schedule("15 * * * * *", function () {
   console.log("---------------------");
@@ -63,6 +64,8 @@ app.all("*", (req, res) => {
     message: "You have entered an incorrect route",
   });
 });
+
+app.use(globalErrorController);
 
 app
   .listen(port, () => console.log(`Welcome, listening on ${port}`))

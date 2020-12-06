@@ -20,13 +20,14 @@ class WalletController {
    * @returns {object} transfer
    * @member WalletController
    */
-  static async transferToWallet(req, res) {
+  static async transferToWallet(req, res, next) {
     try {
       const customerId = req.id;
       const transfer = await transferService(
         req.body.amount,
         req.body.accountNumber,
-        customerId
+        customerId,
+        next
       );
       return handleSuccessResponse(res, transfer, 201);
     } catch (error) {
