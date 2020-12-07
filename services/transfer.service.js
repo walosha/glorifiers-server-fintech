@@ -45,11 +45,9 @@ const transferService = async (amount, accountNumber, customerId, next) => {
       };
     }
 
-    return Promise.reject(
-      next(new appError("Insufficient funds in wallet", 404))
-    );
+    next(new appError("Insufficient funds in wallet", 404));
   } catch (error) {
-    return Promise.reject(error);
+    Promise.reject(error);
   }
 };
 
