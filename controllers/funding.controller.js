@@ -3,7 +3,7 @@
  *
  * @format
  */
-
+var crypto = require("crypto");
 import { handleErrorResponse, handleSuccessResponse } from "../helpers/utils";
 import fundingService from "../services/funding.service";
 /**
@@ -19,15 +19,29 @@ class FundingController {
    * @returns {object} Funding
    * @member FundingController
    */
-  static async fundAccount(req, res) {
-    try {
-      const customerId = req.id;
-      const funding = await fundingService(customerId, req.email, req.body);
-      return handleSuccessResponse(res, funding, 201);
-    } catch (error) {
-      console.log({ FundingController: error });
-      return handleErrorResponse(res, error, 500);
+
+  static async funding(req, res) {
+    console.log("enter the route");
+    const hash = crypto
+      .createHmac("sha512", process.env.PAYSTACK_API_KEY)
+      .update(JSON.stringify(req.body))
+      .digest("hex");
+    if (hash == req.headers["x-paystack-signature"]) {
+      // Retrieve the request's body
+      const {
+        event,
+        data: {
+          amount,
+          reference,
+          customer: { email },
+        },
+      } = req.body;
+
+      if (event == "charge.success") {
+        fundingService(amount, reference, email);
+      }
     }
+    res.sendStatus(200);
   }
 }
 

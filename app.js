@@ -1,5 +1,4 @@
 /* eslint-disable indent */
-var crypto = require("crypto");
 import express from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
@@ -13,10 +12,10 @@ import loanRoute from "./routes/loan.route";
 import fundingRoute from "./routes/funding.route";
 import globalErrorController from "./controllers/error.controller";
 
-cron.schedule("15 * * * * *", function () {
-  console.log("---------------------");
-  console.log("Running Cron Job");
-});
+// cron.schedule("15 * * * * *", function () {
+//   console.log("---------------------");
+//   console.log("Running Cron Job");
+// });
 
 env.config();
 const port = process.env.PORT || 3000;
@@ -32,10 +31,7 @@ app.use((req, res, next) => {
     "Access-Control-Allow-Headers",
     "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"
   );
-  res.setHeader(
-    "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
-  );
+  res.setHeader("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH");
   next();
 });
 
@@ -52,29 +48,8 @@ app.use("/api/v1/", loanRoute);
 app.use("/api/v1/", transactionRoute);
 app.use("/api/v1/", fundingRoute);
 
-app.post("/api/v1/webhook/funding", function (req, res) {
-  var hash = crypto
-    .createHmac("sha512", process.env.PAYSTACK_API_KEY)
-    .update(JSON.stringify(req.body))
-    .digest("hex");
-  if (hash == req.headers["x-paystack-signature"]) {
-    // Retrieve the request's body
-    const {
-      event,
-      data: { authorization, customer },
-    } = req.body;
-
-    console.log({ event, authorization, customer });
-
-    res.sendStatus(200);
-  }
-});
-
 app.get("/", (req, res) => {
-  res.send(`<h1>Welcome to the eWallet Application</h1>
-  <h4>Please use PostMan and navigate to <code>/api/v1</code> to use the app</h4>
-  <p>For any more info please visit my <a href='https://github.com/fegoworks/ewallet-api'>Github</a> page</P>
-  <h4>Thanks  &#x1F600;</h4>`);
+  res.send(`<h1> hello world</h1>`);
 });
 
 app.all("*", (req, res) => {

@@ -1,4 +1,4 @@
-import { Funding, Wallet, Transaction } from "../models";
+import { Funding, Wallet, User, Transaction } from "../models";
 import initiatePayment from "./payment.service";
 
 /**
@@ -14,23 +14,24 @@ export const generateNumber = () => {
   return Number(str);
 };
 
-const fundingService = async (customerId, email, body) => {
+const fundingService = async (amount, reference, email) => {
   let accountNumber;
   try {
-    const response = await initiatePayment(email, body);
-    let { reference, amount } = response.data;
-
     //convert kobo to naira
     amount /= 100;
+    const user = await User.findOne({
+      where: { email },
+    });
+
     const funding = await Funding.create({
-      customerId,
+      customerId: user.id,
       amount,
       reference,
     });
 
     const userWallet = await Wallet.findOne({
       where: {
-        customerId,
+        customerId: user.id,
       },
     });
 
@@ -40,8 +41,6 @@ const fundingService = async (customerId, email, body) => {
     }
 
     if (userWallet === null) {
-      console.log("inside if statement");
-      console.log(userWallet);
       accountNumber = generateNumber();
 
       await Wallet.create({
@@ -59,9 +58,7 @@ const fundingService = async (customerId, email, body) => {
       accountNumber || userWallet.accountNumber
     } with =N=${amount}`;
     transaction.type = "funding";
-
     await transaction.save();
-
     return funding;
   } catch (error) {
     // console.log({ error });
