@@ -59,10 +59,14 @@ app.post("/api/v1/webhook/funding", function (req, res) {
     .digest("hex");
   if (hash == req.headers["x-paystack-signature"]) {
     // Retrieve the request's body
-    var event = req.body;
-    console.log({ event });
+    const {
+      event,
+      data: { authorization, customer },
+    } = req.body;
 
-    res.send(200);
+    console.log({ event, authorization, customer });
+
+    res.sendStatus(200);
   }
 });
 
