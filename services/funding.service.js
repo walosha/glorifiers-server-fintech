@@ -1,5 +1,4 @@
 import { Funding, Wallet, User, Transaction } from "../models";
-import initiatePayment from "./payment.service";
 
 /**
  * @description Generate random numbers
@@ -44,7 +43,7 @@ const fundingService = async (amount, reference, email) => {
       accountNumber = generateNumber();
 
       await Wallet.create({
-        customerId,
+        customerId: user.id,
         accountNumber,
         balance: amount,
       });
