@@ -51,6 +51,20 @@ app.use("/api/v1/", loanRoute);
 app.use("/api/v1/", transactionRoute);
 app.use("/api/v1/", fundingRoute);
 
+app.post("/api/v1/webhook/funding", function (req, res) {
+  var hash = crypto
+    .createHmac("sha512", process.env.PAYSTACK_API_KEY)
+    .update(JSON.stringify(req.body))
+    .digest("hex");
+  if (hash == req.headers["x-paystack-signature"]) {
+    // Retrieve the request's body
+    var event = req.body;
+    console.log({ event });
+
+    res.send(200);
+  }
+});
+
 app.get("/", (req, res) => {
   res.send(`<h1>Welcome to the eWallet Application</h1>
   <h4>Please use PostMan and navigate to <code>/api/v1</code> to use the app</h4>
