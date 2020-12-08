@@ -25,8 +25,7 @@ module.exports = (sequelize, DataTypes) => {
       },
       image: {
         type: DataTypes.STRING,
-        defaultValue:
-          "https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_960_720.png",
+        defaultValue: "noImage.png",
       },
       email: {
         type: DataTypes.STRING,
@@ -59,6 +58,10 @@ module.exports = (sequelize, DataTypes) => {
     User.hasOne(models.Wallet, {
       foreignKey: "customerId",
       as: "walletId",
+    });
+    User.hasOne(models.BankDetail, {
+      foreignKey: "customerId",
+      as: "BankDetailId",
     });
     User.beforeCreate(async (newUser) => {
       newUser.password = "" || hashPassword(newUser.password);

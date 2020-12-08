@@ -68,6 +68,21 @@ const validator = {
         .error(new Error("A guarantor2 is required")),
     }),
 
+    bankDetailSchema: Joi.object().keys({
+      account_number: Joi.string()
+        .regex(/^[0-9]*$/)
+        .required()
+        .min(10)
+        .max(10)
+        .error(new Error("Account Number is Invalid")),
+      bank_code: Joi.string()
+        .regex(/^[0-9]*$/)
+        .required()
+        .min(3)
+        .max(3)
+        .error(new Error("Bank Code is Invalid")),
+    }),
+
     authLoginSchema: Joi.object().keys({
       email: Joi.string()
         .regex(/\S+@\S+\.\S+/)

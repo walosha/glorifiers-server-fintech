@@ -15,7 +15,6 @@ import {
   comparePassword,
   pickUser,
 } from "../helpers/utils";
-import wallet from "../models/wallet";
 
 const S3 = new aws.S3({
   accessKeyId: process.env.AMAZON_ACCESS_KEY,

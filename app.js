@@ -8,6 +8,7 @@ import env from "dotenv";
 import userRoute from "./routes/user.route";
 import walletRoute from "./routes/wallet.route";
 import transactionRoute from "./routes/transaction.route";
+import transferRoute from "./routes/transfer.route";
 import loanRoute from "./routes/loan.route";
 import fundingRoute from "./routes/funding.route";
 import globalErrorController from "./controllers/error.controller";
@@ -47,6 +48,7 @@ app.use("/api/v1/", walletRoute);
 app.use("/api/v1/", loanRoute);
 app.use("/api/v1/", transactionRoute);
 app.use("/api/v1/", fundingRoute);
+app.use("/api/v1/", transferRoute);
 
 app.get("/", (req, res) => {
   res.send(`<h1> hello world</h1>`);
