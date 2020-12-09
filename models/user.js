@@ -18,15 +18,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: true,
       },
-      phoneNumber: {
-        type: DataTypes.STRING,
-        unique: true,
-        required: true,
-      },
-      image: {
-        type: DataTypes.STRING,
-        defaultValue: "noImage.png",
-      },
       email: {
         type: DataTypes.STRING,
         unique: true,
@@ -37,17 +28,56 @@ module.exports = (sequelize, DataTypes) => {
           },
         },
       },
+      phoneNumber: {
+        type: DataTypes.STRING,
+        unique: true,
+        required: true,
+      },
+      image: {
+        type: DataTypes.STRING,
+        defaultValue: "noImage.png",
+      },
       password: {
         type: DataTypes.STRING,
         required: true,
+      },
+
+      acceptTerms: { type: DataTypes.BOOLEAN },
+      verificationToken: { type: DataTypes.STRING },
+      verified: { type: DataTypes.DATE },
+      resetToken: { type: DataTypes.STRING },
+      resetTokenExpires: { type: DataTypes.DATE },
+      passwordReset: { type: DataTypes.DATE },
+      isVerified: {
+        type: DataTypes.BOOLEAN,
+        get() {
+          return !!(this.verified || this.passwordReset);
+        },
       },
       isAdmin: {
         type: DataTypes.BOOLEAN,
         defaultValue: false,
         required: true,
       },
+      created: {
+        type: DataTypes.DATE,
+        allowNull: false,
+        defaultValue: DataTypes.NOW,
+      },
+      updated: { type: DataTypes.DATE },
     },
-    {}
+    {
+      // disable default timestamp fields (createdAt and updatedAt)
+      timestamps: false,
+      defaultScope: {
+        // exclude password hash by default
+        attributes: { exclude: ["[password]"] },
+      },
+      scopes: {
+        // include hash with this scope
+        withHash: { attributes: {} },
+      },
+    }
   );
   User.associate = (models) => {
     User.hasMany(models.Transaction, {
@@ -59,13 +89,10 @@ module.exports = (sequelize, DataTypes) => {
       foreignKey: "customerId",
       as: "walletId",
     });
-    User.hasOne(models.BankDetail, {
-      foreignKey: "customerId",
-      as: "BankDetailId",
-    });
     User.beforeCreate(async (newUser) => {
       newUser.password = "" || hashPassword(newUser.password);
     });
   };
+
   return User;
 };

@@ -1,4 +1,3 @@
-var crypto = require("crypto");
 import { handleErrorResponse, handleSuccessResponse } from "../helpers/utils";
 import fundingService from "../services/funding.service";
 import { BankDetail } from "../models";

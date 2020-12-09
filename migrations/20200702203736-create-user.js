@@ -33,18 +33,28 @@ module.exports = {
         type: Sequelize.STRING,
         allowNull: false,
       },
+      acceptTerms: { type: Sequelize.BOOLEAN },
+      verificationToken: { type: Sequelize.STRING },
+      verified: { type: Sequelize.DATE },
+      resetToken: { type: Sequelize.STRING },
+      resetTokenExpires: { type: Sequelize.DATE },
+      passwordReset: { type: Sequelize.DATE },
+      isVerified: {
+        type: Sequelize.BOOLEAN,
+        get() {
+          return !!(this.verified || this.passwordReset);
+        },
+      },
       isAdmin: {
         type: Sequelize.BOOLEAN,
         allowNull: false,
       },
-      createdAt: {
-        allowNull: false,
+      created: {
         type: Sequelize.DATE,
-      },
-      updatedAt: {
         allowNull: false,
-        type: Sequelize.DATE,
+        defaultValue: Sequelize.NOW,
       },
+      updated: { type: Sequelize.DATE },
     }),
   down: (queryInterface, Sequelize) => queryInterface.dropTable("Users"),
 };

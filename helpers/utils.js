@@ -1,3 +1,4 @@
+const crypto = require("crypto");
 import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 
@@ -84,3 +85,7 @@ export const pickModelAttibutes = (model, object) => {
   const attributes = Object.keys(otherAttributes);
   return pickObj(object, attributes);
 };
+
+export function randomTokenString() {
+  return crypto.randomBytes(40).toString("hex");
+}

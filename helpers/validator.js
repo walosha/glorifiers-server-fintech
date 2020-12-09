@@ -81,6 +81,11 @@ const validator = {
         .min(3)
         .max(3)
         .error(new Error("Bank Code is Invalid")),
+      bvn: Joi.string()
+        .regex(/^[0-9]*$/)
+        .min(10)
+        .max(10)
+        .error(new Error("BVN is Invalid")),
     }),
 
     authLoginSchema: Joi.object().keys({

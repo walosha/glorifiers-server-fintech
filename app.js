@@ -49,6 +49,7 @@ app.use("/api/v1/", loanRoute);
 app.use("/api/v1/", transactionRoute);
 app.use("/api/v1/", fundingRoute);
 app.use("/api/v1/", transferRoute);
+// app.use("/api/v1/", transferRoute);
 
 app.get("/", (req, res) => {
   res.send(`<h1> hello world</h1>`);

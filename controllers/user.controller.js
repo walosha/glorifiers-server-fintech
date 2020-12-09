@@ -14,7 +14,9 @@ import {
   pickModelAttibutes,
   comparePassword,
   pickUser,
+  randomTokenString,
 } from "../helpers/utils";
+import Email from "../services/sendgrid.services";
 
 const S3 = new aws.S3({
   accessKeyId: process.env.AMAZON_ACCESS_KEY,
@@ -41,6 +43,14 @@ class UserController {
       const user = await User.create({
         ...body,
       });
+      user.verificationToken = randomTokenString();
+      user.save();
+
+      const resetURL = `${req.protocol}://${req.get(
+        "host"
+      )}/api/v1/accounts/verify-email/${user.verificationToken}`;
+      // send email
+      await new Email(user, resetURL).sendVerifyEmail();
       newUser = pickUser(user.dataValues);
     } catch (e) {
       console.log({ e });

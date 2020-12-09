@@ -23,6 +23,10 @@ module.exports = {
         type: Sequelize.DOUBLE,
         required: true,
       },
+      bvn: {
+        type: Sequelize.DOUBLE,
+        required: true,
+      },
       bank_code: {
         type: Sequelize.STRING,
         required: true,

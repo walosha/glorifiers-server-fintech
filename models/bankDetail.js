@@ -16,6 +16,10 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.DOUBLE,
         required: true,
       },
+      bvn: {
+        type: DataTypes.DOUBLE,
+        required: true,
+      },
       bank_code: {
         type: DataTypes.STRING,
         required: true,
