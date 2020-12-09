@@ -59,9 +59,7 @@ class UserController {
       user.verificationToken = randomTokenString();
       user.save();
 
-      const resetURL = `${req.protocol}://${req.get("host")}/verify-email/${
-        user.verificationToken
-      }`;
+      const resetURL = `${req.protocol}://${req.headers.host}/verify-email/${user.verificationToken}`;
       // send email
       await new Email(user, resetURL).sendVerifyEmail();
       newUser = pickUser(user.dataValues);
@@ -187,9 +185,7 @@ class UserController {
     await account.save();
 
     // send email
-    const forgetpasswordtURL = `${req.protocol}://${req.get(
-      "host"
-    )}/reset-password/${account.resetToken}`;
+    const forgetpasswordtURL = `${req.protocol}://${req.headers.host}/reset-password/${account.resetToken}`;
     // send email
     await new Email(account, forgetpasswordtURL).sendVerifyEmail();
 

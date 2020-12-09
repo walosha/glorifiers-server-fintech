@@ -8,6 +8,7 @@ import ViewController from "../controllers/view.controller";
 const router = express.Router();
 
 router.get("/", (req, res) => {
+  console.log(req.headers.host);
   res.redirect("http://glorifiers.ng/");
 });
 
