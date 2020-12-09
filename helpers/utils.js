@@ -89,3 +89,28 @@ export const pickModelAttibutes = (model, object) => {
 export function randomTokenString() {
   return crypto.randomBytes(40).toString("hex");
 }
+
+export function basicDetails(account) {
+  const {
+    id,
+    title,
+    firstName,
+    lastName,
+    email,
+    role,
+    created,
+    updated,
+    isVerified,
+  } = account;
+  return {
+    id,
+    title,
+    firstName,
+    lastName,
+    email,
+    role,
+    created,
+    updated,
+    isVerified,
+  };
+}

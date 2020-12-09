@@ -1,6 +1,12 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable("RefreshTokens", {
+      id: {
+        type: Sequelize.UUID,
+        defaultValue: Sequelize.UUIDV4,
+        required: true,
+        primaryKey: true,
+      },
       token: { type: Sequelize.STRING },
       expires: { type: Sequelize.DATE },
       created: {

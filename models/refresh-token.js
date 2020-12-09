@@ -2,6 +2,12 @@ module.exports = (sequelize, DataTypes) => {
   const RefreshToken = sequelize.define(
     "RefreshToken",
     {
+      id: {
+        type: DataTypes.UUID,
+        defaultValue: DataTypes.UUIDV4,
+        required: true,
+        primaryKey: true,
+      },
       token: { type: DataTypes.STRING },
       expires: { type: DataTypes.DATE },
       created: {

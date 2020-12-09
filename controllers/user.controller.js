@@ -16,12 +16,25 @@ import {
   pickUser,
   randomTokenString,
 } from "../helpers/utils";
+import { authenticate } from "../services/user.service";
 import Email from "../services/sendgrid.services";
 
 const S3 = new aws.S3({
   accessKeyId: process.env.AMAZON_ACCESS_KEY,
   secretAccessKey: process.env.AMAZON_SECRET_KEY,
 });
+
+function setTokenCookie(res, token) {
+  // create cookie with refresh token that expires in 7 days
+  const cookieOptions = {
+    maxAge: 60 * 60 * 1000, // 1 hour
+    httpOnly: true,
+    secure: true,
+    sameSite: true,
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  };
+  res.cookie("refreshToken", token, cookieOptions);
+}
 
 /**
  * @description User Controller
@@ -125,50 +138,31 @@ class UserController {
    * @returns {object} User
    * @member UserController
    */
+
   static async signIn(req, res) {
     try {
       const { email, password } = req.body;
 
-      // Check if email exists
-      const isUser = await User.findOne({
-        where: {
+      const ipAddress = req.ip;
+
+      const { refreshToken, token, ...account } = await authenticate(
+        {
           email,
+          password,
+          ipAddress,
         },
-      });
+        res
+      );
 
-      if (!isUser) {
-        const error = "This email does not exist";
-        return handleErrorResponse(res, error, 404);
-      }
-      const isMatch = comparePassword(password, isUser.password);
-      if (!isMatch) {
-        return handleErrorResponse(res, "Wrong Password", 401);
-      }
-      const token = generateToken({
-        id: isUser.id,
-        email: isUser.email,
-        isAdmin: isUser.isAdmin,
-      });
-
-      res.cookie("access_token", token, {
-        maxAge: 60 * 60 * 1000, // 1 hour
-        httpOnly: true,
-        secure: true,
-        sameSite: true,
-      });
+      setTokenCookie(res, refreshToken);
 
       return res.status(200).json({
         status: "success",
-        message: `Welcome ${isUser.firstName}`,
         data: {
-          userId: isUser.id,
-          firstName: isUser.firstName,
-          lastName: isUser.lastName,
-          email: isUser.email,
-          phoneNumber: isUser.phoneNumber,
-          image: isUser.image,
+          ...account,
+          refreshToken,
+          token,
         },
-        token,
       });
     } catch (error) {
       return handleErrorResponse(res, error.message, 500);
