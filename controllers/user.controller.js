@@ -3,7 +3,7 @@
  *
  * @format
  */
-
+const { Op } = require("sequelize");
 import { User, Wallet } from "../models";
 const aws = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
@@ -12,7 +12,7 @@ import {
   handleErrorResponse,
   handleSuccessResponse,
   pickModelAttibutes,
-  comparePassword,
+  hash,
   pickUser,
   randomTokenString,
 } from "../helpers/utils";
@@ -160,9 +160,9 @@ class UserController {
         status: "success",
         data: {
           ...account,
-          refreshToken,
-          token,
         },
+        refreshToken,
+        token,
       });
     } catch (error) {
       return handleErrorResponse(res, error.message, 500);
@@ -198,6 +198,28 @@ class UserController {
       "A reset password has been sent to your mail!",
       200
     );
+  }
+  static async validateResetToken({ token }) {
+    const account = await User.findOne({
+      where: {
+        resetToken: token,
+        resetTokenExpires: { [Op.gt]: Date.now() },
+      },
+    });
+
+    if (!account) throw "Invalid token";
+
+    return account;
+  }
+  static async resetPassword(req, res, next) {
+    const { token, password } = req.body;
+    const account = await validateResetToken({ token });
+
+    // update password and remove reset token
+    account.passwordHash = await hash(password);
+    account.passwordReset = Date.now();
+    account.resetToken = null;
+    await account.save();
   }
 }
 

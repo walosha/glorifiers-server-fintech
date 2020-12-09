@@ -17,7 +17,7 @@ router.post(
 );
 
 router.post("/forgot-password", UserController.forgotPassword);
-// router.post("/reset-password/:token", UserController.forgetPassword);
+router.post("/reset-password/:token", UserController.resetPassword);
 
 router.get("/getSignedUrl", verifyToken.verify, UserController.getSignedUrl);
 
