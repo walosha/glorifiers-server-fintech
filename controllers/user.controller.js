@@ -46,9 +46,9 @@ class UserController {
       user.verificationToken = randomTokenString();
       user.save();
 
-      const resetURL = `${req.protocol}://${req.get(
-        "host"
-      )}/api/v1/accounts/verify-email/${user.verificationToken}`;
+      const resetURL = `${req.protocol}://${req.get("host")}/verify-email/${
+        user.verificationToken
+      }`;
       // send email
       await new Email(user, resetURL).sendVerifyEmail();
       newUser = pickUser(user.dataValues);

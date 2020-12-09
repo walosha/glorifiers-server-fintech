@@ -50,6 +50,7 @@ module.exports = (sequelize, DataTypes) => {
       passwordReset: { type: DataTypes.DATE },
       isVerified: {
         type: DataTypes.BOOLEAN,
+        defaultValue: false,
         get() {
           return !!(this.verified || this.passwordReset);
         },
@@ -71,7 +72,7 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
       defaultScope: {
         // exclude password hash by default
-        attributes: { exclude: ["[password]"] },
+        attributes: { exclude: ["password", "verificationToken"] },
       },
       scopes: {
         // include hash with this scope

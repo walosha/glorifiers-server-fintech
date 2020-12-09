@@ -41,6 +41,7 @@ module.exports = {
       passwordReset: { type: Sequelize.DATE },
       isVerified: {
         type: Sequelize.BOOLEAN,
+        defaultValue: false,
         get() {
           return !!(this.verified || this.passwordReset);
         },
