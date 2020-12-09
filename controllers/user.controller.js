@@ -168,6 +168,37 @@ class UserController {
       return handleErrorResponse(res, error.message, 500);
     }
   }
+
+  static async forgotPassword(req, res, next) {
+    const { email } = req.body;
+    const account = await User.findOne({ where: { email } });
+
+    // always return ok response to prevent email enumeration
+    if (!account)
+      return handleSuccessResponse(
+        res,
+        "A reset password has been sent to your mail!",
+        200
+      );
+
+    // create reset token that expires after 24 hours
+    account.resetToken = randomTokenString();
+    account.resetTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    await account.save();
+
+    // send email
+    const forgetpasswordtURL = `${req.protocol}://${req.get(
+      "host"
+    )}/reset-password/${account.resetToken}`;
+    // send email
+    await new Email(account, forgetpasswordtURL).sendVerifyEmail();
+
+    return handleSuccessResponse(
+      res,
+      "A reset password has been sent to your mail!",
+      200
+    );
+  }
 }
 
 export default UserController;

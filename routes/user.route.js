@@ -16,6 +16,9 @@ router.post(
   UserController.signIn
 );
 
+router.post("/forgot-password", UserController.forgotPassword);
+// router.post("/reset-password/:token", UserController.forgetPassword);
+
 router.get("/getSignedUrl", verifyToken.verify, UserController.getSignedUrl);
 
 router.patch(
