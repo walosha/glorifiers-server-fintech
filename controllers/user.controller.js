@@ -16,7 +16,12 @@ import {
   pickUser,
   randomTokenString,
 } from "../helpers/utils";
-import { authenticate } from "../services/user.service";
+import {
+  authenticate,
+  refreshToken,
+  validateResetToken,
+  revokeToken,
+} from "../services/user.service";
 import Email from "../services/sendgrid.services";
 
 const S3 = new aws.S3({
@@ -207,6 +212,7 @@ class UserController {
 
     return account;
   }
+
   static async resetPassword(req, res, next) {
     const { token, password } = req.body;
     const account = await validateResetToken({ token });
@@ -216,6 +222,45 @@ class UserController {
     account.passwordReset = Date.now();
     account.resetToken = null;
     await account.save();
+  }
+
+  static refreshToken(req, res, next) {
+    const token = req.cookies.refreshToken;
+    const ipAddress = req.ip;
+    refreshToken({ token, ipAddress })
+      .then(({ refreshToken, ...account }) => {
+        setTokenCookie(res, refreshToken);
+        res.json(account);
+      })
+      .catch(next);
+  }
+
+  static revokeToken(req, res, next) {
+    // accept token from request body or cookie
+    const token = req.body.token || req.cookies.refreshToken;
+    const ipAddress = req.ip;
+
+    if (!token) return res.status(400).json({ message: "Token is required" });
+
+    // users can revoke their own tokens and admins can revoke any tokens
+    if (!req.user.ownsToken(token) && req.user.role !== Role.Admin) {
+      return res.status(401).json({ message: "Unauthorized" });
+    }
+
+    revokeToken({ token, ipAddress })
+      .then(() => res.json({ message: "Token revoked" }))
+      .catch(next);
+  }
+
+  static validateResetToken(req, res, next) {
+    validateResetToken(req.body)
+      .then(() =>
+        res.json({
+          status: "Success",
+          data: "Token is valid",
+        })
+      )
+      .catch(next);
   }
 }
 

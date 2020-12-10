@@ -1,4 +1,5 @@
 /* eslint-disable indent */
+import path from "path";
 import express from "express";
 import morgan from "morgan";
 import bodyParser from "body-parser";
@@ -22,6 +23,12 @@ import globalErrorController from "./controllers/error.controller";
 env.config();
 const port = process.env.PORT || 3000;
 const app = express();
+
+app.set("view engine", "pug");
+app.set("views", path.join(__dirname, "views"));
+
+// Serving static files
+app.use(express.static(path.join(__dirname, "public")));
 
 if (process.env.NODE.ENV !== "production") {
   app.use(morgan("dev"));

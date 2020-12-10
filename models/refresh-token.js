@@ -37,6 +37,11 @@ module.exports = (sequelize, DataTypes) => {
       timestamps: false,
     }
   );
+  RefreshToken.associate = (models) => {
+    RefreshToken.belongsTo(models.User, {
+      foreignKey: "customerId",
+    });
+  };
 
   return RefreshToken;
 };

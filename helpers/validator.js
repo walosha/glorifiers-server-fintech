@@ -15,6 +15,14 @@ const validator = {
   },
 
   schemas: {
+    revokeTokenSchema: Joi.object().keys({
+      token: Joi.string().empty(""),
+    }),
+
+    validateResetTokenSchema: Joi.object().keys({
+      token: Joi.string().required(),
+    }),
+
     authSchema: Joi.object().keys({
       firstName: Joi.string()
         .regex(/^[a-zA-Z]*$/)

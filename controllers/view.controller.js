@@ -19,6 +19,12 @@ class ViewController {
    * @member UserController
    */
 
+  static alerts(req, res, next) {
+    const { alert } = req.query;
+    if (alert === "booking") res.locals.alert = "This is an alert.";
+    next();
+  }
+
   static async verifyEmail(req, res, next) {
     try {
       await verifyEmail(req.params.verificationToken);
@@ -32,6 +38,16 @@ class ViewController {
       return handleErrorResponse(res, error, 404);
     }
   }
-}
 
+  static async resetPassword(req, res, next) {
+    // 1) Get tour data from collection
+    const { token } = req.params;
+    // 2) Build template
+    // 3) Render that template using tour data from 1)
+    res.status(200).render("reset-password", {
+      token,
+      message: "hellow",
+    });
+  }
+}
 export default ViewController;

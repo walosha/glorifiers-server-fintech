@@ -7,6 +7,18 @@ module.exports = {
         required: true,
         primaryKey: true,
       },
+      customerId: {
+        type: Sequelize.UUID,
+        unique: true,
+        allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        references: {
+          model: "Users",
+          key: "id",
+          as: "customerId",
+        },
+      },
       token: { type: Sequelize.STRING },
       expires: { type: Sequelize.DATE },
       created: {

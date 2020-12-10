@@ -7,10 +7,13 @@ import ViewController from "../controllers/view.controller";
 
 const router = express.Router();
 
+router.use(ViewController.alerts);
+
 router.get("/", (req, res) => {
-  console.log(req.headers.host);
-  res.redirect("http://glorifiers.ng/");
+  res.redirect("http://glorifiers.ng");
 });
+
+router.get("/reset-password/:token", ViewController.resetPassword);
 
 router.get("/verify-email/:verificationToken", ViewController.verifyEmail);
 
