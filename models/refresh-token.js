@@ -8,6 +8,11 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
         primaryKey: true,
       },
+      customerId: {
+        type: DataTypes.UUID,
+        required: true,
+        allowNull: false,
+      },
       token: { type: DataTypes.STRING },
       expires: { type: DataTypes.DATE },
       created: {

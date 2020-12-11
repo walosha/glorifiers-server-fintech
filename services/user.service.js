@@ -2,15 +2,13 @@ import { User, RefreshToken } from "../models";
 import {
   generateToken,
   handleErrorResponse,
-  handleSuccessResponse,
-  pickModelAttibutes,
   comparePassword,
-  pickUser,
   basicDetails,
   randomTokenString,
 } from "../helpers/utils";
 
 async function generateRefreshToken(account, ipAddress) {
+  console.log("generateRefreshToken");
   // create a refresh token that expires in 7 days
   return await RefreshToken.create({
     customerId: account.id,

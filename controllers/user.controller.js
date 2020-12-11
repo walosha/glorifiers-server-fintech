@@ -168,6 +168,7 @@ class UserController {
         token,
       });
     } catch (error) {
+      console.log({ error });
       return handleErrorResponse(res, error.message, 500);
     }
   }
