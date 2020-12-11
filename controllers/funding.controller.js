@@ -39,6 +39,7 @@ class FundingController {
           recipient: {
             email,
             name,
+            metadata: { email },
             recipient_code,
             created_at,
             updated_at,

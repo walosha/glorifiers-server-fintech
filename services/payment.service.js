@@ -16,7 +16,8 @@ export async function createRecipeintCode(
   name,
   account_number,
   bank_code,
-  amount
+  amount,
+  email
 ) {
   try {
     const {
@@ -26,11 +27,14 @@ export async function createRecipeintCode(
       name,
       account_number,
       bank_code,
+      metadata: {
+        email,
+      },
     });
 
     const response = await Paystack.post("/transfer", {
       source: "balance",
-      amount: amount,
+      amount: amount * 100,
       recipient: data.recipient_code,
     });
 
@@ -57,7 +61,7 @@ export async function recordCompletedPayment(
     // Get user wallet detail
     const userWallet = await Wallet.findOne({
       where: {
-        customerId: name,
+        customerId: email,
       },
     });
 
@@ -76,6 +80,9 @@ export async function recordCompletedPayment(
       account_number,
       account_name,
     });
+
+    //convert kobo to naira
+    amount /= 100;
 
     //update transaction with amount on withdrawal
 
