@@ -1,6 +1,6 @@
 module.exports = (sequelize, DataTypes) => {
-  const BankDetail = sequelize.define(
-    "BankDetail",
+  const Payment = sequelize.define(
+    "Payment",
     {
       id: {
         type: DataTypes.UUID,
@@ -12,12 +12,23 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.UUID,
         required: true,
       },
-
-      account_number: {
+      amount: {
         type: DataTypes.DOUBLE,
         required: true,
       },
-      type: {
+      reference: {
+        type: DataTypes.STRING,
+        required: true,
+      },
+      transfer_code: {
+        type: DataTypes.STRING,
+        required: true,
+      },
+      email: {
+        type: DataTypes.STRING,
+        required: true,
+      },
+      name: {
         type: DataTypes.STRING,
         required: true,
       },
@@ -25,21 +36,17 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: true,
       },
-      bvn: {
-        type: DataTypes.DOUBLE,
-        required: true,
-      },
-      bank_code: {
+      account_number: {
         type: DataTypes.STRING,
         required: true,
       },
     },
     {}
   );
-  BankDetail.associate = (models) => {
-    BankDetail.belongsTo(models.User, {
+  Payment.associate = (models) => {
+    Payment.belongsTo(models.User, {
       foreignKey: "customerId",
     });
   };
-  return BankDetail;
+  return Payment;
 };

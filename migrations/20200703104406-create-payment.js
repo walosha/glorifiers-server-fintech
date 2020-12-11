@@ -1,6 +1,6 @@
 module.exports = {
   up: (queryInterface, Sequelize) =>
-    queryInterface.createTable("BankDetails", {
+    queryInterface.createTable("Payments", {
       id: {
         type: Sequelize.UUID,
         defaultValue: Sequelize.UUIDV4,
@@ -19,11 +19,23 @@ module.exports = {
           as: "customerId",
         },
       },
-      account_number: {
+      amount: {
         type: Sequelize.DOUBLE,
         required: true,
       },
-      type: {
+      reference: {
+        type: Sequelize.STRING,
+        required: true,
+      },
+      transfer_code: {
+        type: Sequelize.STRING,
+        required: true,
+      },
+      email: {
+        type: Sequelize.STRING,
+        required: true,
+      },
+      name: {
         type: Sequelize.STRING,
         required: true,
       },
@@ -31,22 +43,10 @@ module.exports = {
         type: Sequelize.STRING,
         required: true,
       },
-      bvn: {
-        type: Sequelize.DOUBLE,
-        required: true,
-      },
-      bank_code: {
+      account_number: {
         type: Sequelize.STRING,
         required: true,
       },
-      createdAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
-      updatedAt: {
-        allowNull: false,
-        type: Sequelize.DATE,
-      },
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable("BankDetails"),
+  down: (queryInterface, Sequelize) => queryInterface.dropTable("Payments"),
 };

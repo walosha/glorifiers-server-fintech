@@ -23,6 +23,10 @@ const validator = {
       token: Joi.string().required(),
     }),
 
+    paymentSchema: Joi.object().keys({
+      amount: Joi.number().positive().greater(1).precision(2).required(),
+    }),
+
     authSchema: Joi.object().keys({
       firstName: Joi.string()
         .regex(/^[a-zA-Z]*$/)

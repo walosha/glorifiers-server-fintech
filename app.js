@@ -10,6 +10,7 @@ import userRoute from "./routes/user.route";
 import walletRoute from "./routes/wallet.route";
 import transactionRoute from "./routes/transaction.route";
 import transferRoute from "./routes/transfer.route";
+import paymentRoute from "./routes/payment.route";
 import loanRoute from "./routes/loan.route";
 import fundingRoute from "./routes/funding.route";
 import ViewRoute from "./routes/view.route";
@@ -57,6 +58,7 @@ app.use("/api/v1/", loanRoute);
 app.use("/api/v1/", transactionRoute);
 app.use("/api/v1/", fundingRoute);
 app.use("/api/v1/", transferRoute);
+app.use("/api/v1/", paymentRoute);
 app.use("/", ViewRoute);
 
 app.all("*", (req, res) => {
