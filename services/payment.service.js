@@ -61,7 +61,7 @@ export async function recordCompletedPayment(
     // Get user wallet detail
     const userWallet = await Wallet.findOne({
       where: {
-        customerId: email,
+        email,
       },
     });
 
