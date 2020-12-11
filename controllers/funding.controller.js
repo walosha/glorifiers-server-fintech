@@ -38,7 +38,7 @@ class FundingController {
           transfer_code,
           recipient: {
             name,
-            metadata: { email },
+            metadata: { email, id },
             recipient_code,
             created_at,
             updated_at,
@@ -51,6 +51,7 @@ class FundingController {
           reference,
           transfer_code,
           email,
+          id,
           name,
           recipient_code,
           created_at,

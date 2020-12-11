@@ -67,7 +67,7 @@ class PaymentController {
       bank_code,
     } = userBankDetail;
     const name = account_name;
-    const email = req.email;
+    const { email, id } = req;
 
     try {
       const customerRef = await createRecipeintCode(
@@ -76,7 +76,8 @@ class PaymentController {
         account_number,
         bank_code,
         amount,
-        email
+        email,
+        id
       );
       return handleSuccessResponse(res, customerRef, 200);
     } catch (error) {

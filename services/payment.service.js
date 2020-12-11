@@ -17,7 +17,8 @@ export async function createRecipeintCode(
   account_number,
   bank_code,
   amount,
-  email
+  email,
+  id
 ) {
   try {
     const {
@@ -29,6 +30,7 @@ export async function createRecipeintCode(
       bank_code,
       metadata: {
         email,
+        id,
       },
     });
 
@@ -50,6 +52,7 @@ export async function recordCompletedPayment(
   reference,
   transfer_code,
   email,
+  id,
   name,
   recipient_code,
   created_at,
@@ -61,7 +64,7 @@ export async function recordCompletedPayment(
     // Get user wallet detail
     const userWallet = await Wallet.findOne({
       where: {
-        email,
+        customerId: id,
       },
     });
 
@@ -69,7 +72,7 @@ export async function recordCompletedPayment(
 
     await Payment.create({
       amount,
-      customerId: name,
+      customerId: id,
       reference,
       transfer_code,
       email,
