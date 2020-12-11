@@ -59,8 +59,14 @@ class PaymentController {
       );
     }
 
-    const { type, account_name, account_number, bank_code } = userBankDetail;
-    const name = "account_name";
+    const {
+      type,
+      customerId,
+      account_name,
+      account_number,
+      bank_code,
+    } = userBankDetail;
+    name = customerId;
 
     try {
       const customerRef = await createRecipeintCode(

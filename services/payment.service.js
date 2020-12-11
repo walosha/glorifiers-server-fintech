@@ -53,22 +53,16 @@ export async function recordCompletedPayment(
   account_number,
   account_name
 ) {
-  console.log({
-    amount,
-    reference,
-    transfer_code,
-    email,
-    name,
-    recipient_code,
-    created_at,
-    updated_at,
-    account_number,
-    account_name,
-  });
-
   try {
+    const userWallet = await Wallet.findOne({
+      where: {
+        customerId: name,
+      },
+    });
+
     await Payment.create({
       amount,
+      customerId: name,
       reference,
       transfer_code,
       email,
@@ -78,12 +72,6 @@ export async function recordCompletedPayment(
       updatedAt: updated_at,
       account_number,
       account_name,
-    });
-
-    const userWallet = await Wallet.findOne({
-      where: {
-        email,
-      },
     });
 
     const transaction = new Transaction();
