@@ -54,11 +54,14 @@ export async function recordCompletedPayment(
   account_name
 ) {
   try {
+    // Get user wallet detail
     const userWallet = await Wallet.findOne({
       where: {
         customerId: name,
       },
     });
+
+    // Create withdrawal record
 
     await Payment.create({
       amount,
@@ -74,20 +77,27 @@ export async function recordCompletedPayment(
       account_name,
     });
 
-    const transaction = new Transaction();
+    //update transaction with amount on withdrawal
 
+    const transaction = new Transaction();
     transaction.amount = amount;
     transaction.accountNumber = account_number;
     transaction.narration = `Withdrew from  ${userWallet.accountNumber} with =N=${amount}`;
     transaction.type = "debit";
     await transaction.save();
-    const charges = new Transaction();
 
+    //update transaction with charges on withdrawal
+
+    const charges = new Transaction();
     charges.amount = process.env.WITHDRAWAL_CHARGES * 1 || 100;
     charges.accountNumber = account_number;
     charges.narration = `Charges on Withdrawl of ${amount} from  ${userWallet.accountNumber}`;
     charges.type = "charges";
     await charges.save();
+
+    //update user wallet balance
+    userWallet.balance -= amount + (process.env.WITHDRAWAL_CHARGES * 1 || 100);
+    userWallet.save();
   } catch (error) {
     console.log({ error });
   }

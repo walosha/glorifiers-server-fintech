@@ -9,7 +9,6 @@ module.exports = {
       },
       customerId: {
         type: Sequelize.UUID,
-        unique: true,
         allowNull: false,
         onUpdate: "CASCADE",
         onDelete: "CASCADE",
