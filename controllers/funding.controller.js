@@ -31,7 +31,7 @@ class FundingController {
 
       // Retrieve the request's body
 
-      if (event == "charge.success") {
+      if (event == "transfer.success") {
         const {
           amount,
           reference,
@@ -42,7 +42,7 @@ class FundingController {
             recipient_code,
             created_at,
             updated_at,
-            details: { account_number, account_name, bank_code, bank_name },
+            details: { account_number, account_name },
           },
         } = data;
 
