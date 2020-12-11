@@ -14,7 +14,7 @@ module.exports = (sequelize, DataTypes) => {
       },
 
       account_number: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.STRING,
         required: true,
       },
       type: {

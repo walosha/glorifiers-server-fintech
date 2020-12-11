@@ -6,17 +6,10 @@ import validate from "../helpers/validator";
 const router = express.Router();
 
 router.post(
-  "/addaccount",
+  "/add_account_details",
   verifyToken.verify,
   validate.validateBody(validate.schemas.bankDetailSchema),
   TransferController.addAccountToDB
 );
-
-// router.post(
-//   "/paymenttransfer",
-//   verifyToken.verify,
-//   validate.validateBody(validate.schemas.transferSchema),
-//   WalletController.transferToWallet
-// );
 
 export default router;

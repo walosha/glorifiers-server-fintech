@@ -20,7 +20,7 @@ module.exports = {
         },
       },
       account_number: {
-        type: Sequelize.DOUBLE,
+        type: Sequelize.STRING,
         required: true,
       },
       type: {

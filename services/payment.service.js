@@ -36,7 +36,8 @@ export async function createRecipeintCode(
 
     return response.data.data;
   } catch (error) {
-    return error.response;
+    console.log(error.response.data);
+    error.response.data.message;
   }
 }
 
@@ -52,6 +53,19 @@ export async function recordCompletedPayment(
   account_number,
   account_name
 ) {
+  console.log({
+    amount,
+    reference,
+    transfer_code,
+    email,
+    name,
+    recipient_code,
+    created_at,
+    updated_at,
+    account_number,
+    account_name,
+  });
+
   try {
     await Payment.create({
       amount,
