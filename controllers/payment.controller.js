@@ -21,7 +21,10 @@ class PaymentController {
    * @member PaymentController
    */
   static async createRef(req, res) {
-    const { id, amount } = req;
+    const {
+      id,
+      body: { amount },
+    } = req;
 
     const userWallet = await Wallet.findOne({ where: { customerId: id } });
 
@@ -33,20 +36,25 @@ class PaymentController {
       );
     }
 
-    if (userWallet.balance < amount) {
+    if (
+      userWallet.balance - (process.env.WITHDRAWAL_CHARGES * 1 || 100) <
+      amount
+    ) {
       return handleSuccessResponse(
         res,
-        "Unsufficient Balance. Please fund your wallet",
+        "Insufficient Balance. Please fund your wallet",
         401
       );
     }
 
-    const userBankDetail = BankDetail.findOne({ where: { customerId: id } });
+    const userBankDetail = await BankDetail.findOne({
+      where: { customerId: id },
+    });
 
     if (!userBankDetail) {
       return handleSuccessResponse(
         res,
-        "Kindly add your bak details to the app",
+        "Kindly add your bank details to the app",
         200
       );
     }

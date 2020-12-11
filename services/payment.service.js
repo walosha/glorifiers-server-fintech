@@ -1,5 +1,5 @@
 import axios from "axios";
-import { Payment, Transaction, Wallet, User } from "../models";
+import { Payment, Transaction, Wallet } from "../models";
 
 const baseURL = "https://api.paystack.co";
 
@@ -83,7 +83,7 @@ export async function recordCompletedPayment(
     await transaction.save();
     const charges = new Transaction();
 
-    charges.amount = process.env.WITHDRAWAL_CHARGES || 100;
+    charges.amount = process.env.WITHDRAWAL_CHARGES * 1 || 100;
     charges.accountNumber = account_number;
     charges.narration =
       description ||
