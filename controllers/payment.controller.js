@@ -67,7 +67,6 @@ class PaymentController {
       bank_code,
     } = userBankDetail;
     const name = account_name;
-    const { email, id } = req;
 
     try {
       const customerRef = await createRecipeintCode(
