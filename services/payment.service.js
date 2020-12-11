@@ -78,18 +78,14 @@ export async function recordCompletedPayment(
 
     transaction.amount = amount;
     transaction.accountNumber = account_number;
-    transaction.narration =
-      description ||
-      `Withdrew from  ${userWallet.accountNumber} with =N=${amount}`;
+    transaction.narration = `Withdrew from  ${userWallet.accountNumber} with =N=${amount}`;
     transaction.type = "debit";
     await transaction.save();
     const charges = new Transaction();
 
     charges.amount = process.env.WITHDRAWAL_CHARGES * 1 || 100;
     charges.accountNumber = account_number;
-    charges.narration =
-      description ||
-      `Charges on Withdrawl of ${amount} from  ${userWallet.accountNumber}`;
+    charges.narration = `Charges on Withdrawl of ${amount} from  ${userWallet.accountNumber}`;
     charges.type = "charges";
     await charges.save();
   } catch (error) {
