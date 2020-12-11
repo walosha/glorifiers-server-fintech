@@ -23,6 +23,7 @@ class PaymentController {
   static async createRef(req, res) {
     const {
       id,
+      email,
       body: { amount },
     } = req;
 
