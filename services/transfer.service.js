@@ -21,22 +21,28 @@ const transferService = async (amount, accountNumber, customerId, next) => {
 
     if (wallet.balance > amount) {
       wallet.balance -= amount;
-      receivingWallet.balance += amount;
-
       await wallet.save();
+
+      const receivingWallet = await Wallet.findOne({
+        where: {
+          accountNumber,
+        },
+      });
+
+      receivingWallet.balance += amount;
       await receivingWallet.save();
 
       const transaction = new Transaction();
       transaction.amount = -amount;
       transaction.accountNumber = wallet.accountNumber;
-      transaction.narration = `transfer_to_account: ${accountNumber}`;
+      transaction.narration = `transfer to account: ${accountNumber}`;
       transaction.type = "transfer";
       await transaction.save();
 
       const transactionRecipient = new Transaction();
       transactionRecipient.amount = amount;
       transactionRecipient.accountNumber = accountNumber;
-      transactionRecipient.narration = `transfer_from_account: ${wallet.accountNumber}`;
+      transactionRecipient.narration = `transfer from account: ${wallet.accountNumber}`;
       transactionRecipient.type = "transfer";
       await transactionRecipient.save();
       return {
