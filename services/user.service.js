@@ -62,7 +62,6 @@ export const authenticate = async function (
   });
 
   const refreshToken = await generateRefreshToken(account, ipAddress);
-  console.log({ refreshToken });
 
   // save refresh token
   refreshToken.save();

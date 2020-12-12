@@ -24,7 +24,7 @@ const validator = {
     }),
 
     paymentSchema: Joi.object().keys({
-      amount: Joi.number().positive().greater(1).precision(2).required(),
+      amount: Joi.number().positive().greater(0).precision(2).required(),
     }),
 
     authSchema: Joi.object().keys({

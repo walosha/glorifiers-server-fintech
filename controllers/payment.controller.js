@@ -38,7 +38,9 @@ class PaymentController {
     }
 
     if (
-      userWallet.balance - (process.env.WITHDRAWAL_CHARGES * 1 || 100) <
+      userWallet.balance -
+        (process.env.WITHDRAWAL_CHARGES * 1 || 100) -
+        (process.env.MINIMUM_BALANCE * 1 || 10) <
       amount
     ) {
       return handleSuccessResponse(
@@ -60,13 +62,7 @@ class PaymentController {
       );
     }
 
-    const {
-      type,
-      customerId,
-      account_name,
-      account_number,
-      bank_code,
-    } = userBankDetail;
+    const { type, account_name, account_number, bank_code } = userBankDetail;
     const name = account_name;
 
     try {
