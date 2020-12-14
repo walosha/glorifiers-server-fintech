@@ -137,7 +137,10 @@ const validator = {
     }),
 
     transferSchema: Joi.object().keys({
-      amount: Joi.number().required().error(new Error("Please enter amount")),
+      amount: Joi.number()
+        .precision(2)
+        .required()
+        .error(new Error("Please enter amount")),
       accountNumber: Joi.number()
         .integer()
         .required()
