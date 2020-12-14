@@ -7,7 +7,7 @@ module.exports = class Email {
     this.to = user.email;
     this.firstName = user.firstName;
     this.url = url;
-    this.from = `CEO Seun Bankole <${process.env.EMAIL_FROM}>`;
+    this.from = `CEO Seun O. Bankole <${process.env.EMAIL_FROM}>`;
   }
 
   newTransport() {
@@ -50,7 +50,7 @@ module.exports = class Email {
 
   async sendPasswordReset() {
     await this.send(
-      "passwordReset",
+      "password-reset",
       "Your password reset token (valid for only 10 minutes)"
     );
   }

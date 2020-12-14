@@ -99,14 +99,14 @@ export async function recordCompletedPayment(
     //update transaction with charges on withdrawal
 
     const charges = new Transaction();
-    charges.amount = process.env.WITHDRAWAL_CHARGES * 1 || 100;
+    charges.amount = process.env.WITHDRAWAL_CHARGES * 1 ?? 100;
     charges.accountNumber = userWallet.accountNumber;
     charges.narration = `Charge on Withdrawl of ${amount} from wallet  ${userWallet.accountNumber}`;
     charges.type = "charges";
     await charges.save();
 
     //update user wallet balance
-    userWallet.balance -= amount + (process.env.WITHDRAWAL_CHARGES * 1 || 100);
+    userWallet.balance -= amount + (process.env.WITHDRAWAL_CHARGES * 1 ?? 100);
     userWallet.save();
   } catch (error) {
     console.log({ error });

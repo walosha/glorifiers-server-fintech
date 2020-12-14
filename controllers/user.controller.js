@@ -193,7 +193,7 @@ class UserController {
     // send email
     const forgetpasswordtURL = `${req.protocol}://${req.headers.host}/reset-password/${account.resetToken}`;
     // send email
-    await new Email(account, forgetpasswordtURL).sendVerifyEmail();
+    await new Email(account, forgetpasswordtURL).sendPasswordReset();
 
     return handleSuccessResponse(
       res,
