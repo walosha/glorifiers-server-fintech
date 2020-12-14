@@ -39,8 +39,8 @@ class PaymentController {
 
     if (
       userWallet.balance -
-        (process.env.WITHDRAWAL_CHARGES * 1 ?? 100) -
-        (process.env.MINIMUM_BALANCE * 1 ?? 10) <
+        (process.env.WITHDRAWAL_CHARGES * 1 || 100) -
+        (process.env.MINIMUM_BALANCE * 1 || 10) <
       amount
     ) {
       return handleSuccessResponse(
