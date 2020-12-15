@@ -101,6 +101,8 @@ export function basicDetails(account) {
     created,
     updated,
     isVerified,
+    phoneNumber,
+    image,
   } = account;
   return {
     id,
@@ -112,6 +114,8 @@ export function basicDetails(account) {
     created,
     updated,
     isVerified,
+    phoneNumber,
+    image,
   };
 }
 
