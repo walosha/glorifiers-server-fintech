@@ -186,7 +186,7 @@ class UserController {
 
     // create reset token that expires after 24 hours
     account.resetToken = randomTokenString();
-    account.resetTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
+    account.resetTokenExpires = new Date(Date.now() + 10 * 60 * 60 * 1000);
     await account.save();
     // send email
     const forgetpasswordtURL = `${process.env.DOMAIN_URL}/reset-password/${account.resetToken}`;

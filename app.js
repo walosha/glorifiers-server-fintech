@@ -1,9 +1,12 @@
 /* eslint-disable indent */
 import path from "path";
-import express from "express";
+import express, { request } from "express";
 import morgan from "morgan";
+const cors = require("cors");
 import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
+const rateLimit = require("express-rate-limit");
+const helmet = require("helmet");
 const cron = require("node-cron");
 import env from "dotenv";
 import userRoute from "./routes/user.route";
@@ -24,6 +27,28 @@ import globalErrorController from "./controllers/error.controller";
 env.config();
 const port = process.env.PORT || 3000;
 const app = express();
+
+// 1) GLOBAL MIDDLEWARES
+// Implement CORS
+app.use(cors());
+
+app.use(
+  cors({
+    origin: "https://glorifiers.ng",
+  })
+);
+app.options("*", cors());
+
+//added helmet to app
+app.use(helmet());
+
+// Limit requests from same API
+const limiter = rateLimit({
+  max: 100,
+  windowMs: 20 * 60 * 1000,
+  message: "Too many requests from this IP, please try again in an hour!",
+});
+app.use("/api", limiter);
 
 app.set("view engine", "pug");
 app.set("views", path.join(__dirname, "views"));
