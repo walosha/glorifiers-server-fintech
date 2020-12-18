@@ -207,7 +207,7 @@ class UserController {
       const account = await validateResetToken(token, res);
       if (!account) return handleErrorResponse(res, "Invalid token", 401);
       // update password and remove reset token
-      account.passwordHash = await hash(password);
+      account.password = await hash(password);
       account.passwordReset = Date.now();
       account.resetToken = null;
       await account.save();
