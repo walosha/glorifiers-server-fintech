@@ -188,7 +188,6 @@ class UserController {
     account.resetToken = randomTokenString();
     account.resetTokenExpires = new Date(Date.now() + 24 * 60 * 60 * 1000);
     await account.save();
-
     // send email
     const forgetpasswordtURL = `${process.env.DOMAIN_URL}/reset-password/${account.resetToken}`;
     // send email
@@ -202,14 +201,24 @@ class UserController {
   }
 
   static async resetPassword(req, res, next) {
-    const { token, password } = req.body;
-    const account = await validateResetToken({ token });
-
-    // update password and remove reset token
-    account.passwordHash = await hash(password);
-    account.passwordReset = Date.now();
-    account.resetToken = null;
-    await account.save();
+    const { password } = req.body;
+    const { token } = req.params;
+    try {
+      const account = await validateResetToken(token, res);
+      if (!account) return handleErrorResponse(res, "Invalid token", 401);
+      // update password and remove reset token
+      account.passwordHash = await hash(password);
+      account.passwordReset = Date.now();
+      account.resetToken = null;
+      await account.save();
+      return handleSuccessResponse(
+        res,
+        "Your password has sucessfully been changed!",
+        201
+      );
+    } catch (e) {
+      console.log({ e });
+    }
   }
 
   static refreshToken(req, res, next) {

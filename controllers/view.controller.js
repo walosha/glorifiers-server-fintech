@@ -30,24 +30,13 @@ class ViewController {
       const email = await verifyEmail(req.params.verificationToken, res);
       return handleSuccessResponse(
         res,
-        `Your email:${email} was successful Verified, you can now login`,
+        `${email} was successful Verified, please login`,
         200
       );
     } catch (error) {
       console.log({ error: error.message });
       return handleErrorResponse(res, error, 404);
     }
-  }
-
-  static async resetPassword(req, res, next) {
-    // 1) Get tour data from collection
-    const { token } = req.params;
-    // 2) Build template
-    // 3) Render that template using tour data from 1)
-    res.status(200).render("reset-password", {
-      token,
-      message: "hellow",
-    });
   }
 }
 export default ViewController;

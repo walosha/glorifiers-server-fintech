@@ -13,8 +13,6 @@ router.get("/", (req, res) => {
   res.redirect("http://glorifiers.ng");
 });
 
-router.get("/reset-password/:token", ViewController.resetPassword);
-
 router.get("/verify-email/:verificationToken", ViewController.verifyEmail);
 
 export default router;

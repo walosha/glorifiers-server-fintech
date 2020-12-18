@@ -120,5 +120,5 @@ export function basicDetails(account) {
 }
 
 export async function hash(password) {
-  return await bcrypt.hash(password, process.env.SALT || 10);
+  return await bcrypt.hash(password, process.env.SALT * 1 || 10);
 }

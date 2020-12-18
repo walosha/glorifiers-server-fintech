@@ -72,15 +72,13 @@ export const authenticate = async function (
   };
 };
 
-export async function validateResetToken({ token }) {
+export async function validateResetToken(token) {
   const account = await User.findOne({
     where: {
       resetToken: token,
       resetTokenExpires: { [Op.gt]: Date.now() },
     },
   });
-
-  if (!account) throw "Invalid token";
 
   return account;
 }
