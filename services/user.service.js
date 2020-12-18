@@ -80,6 +80,7 @@ export async function validateResetToken(token) {
     },
   });
 
+  if (!account) throw "Invalid Token";
   return account;
 }
 

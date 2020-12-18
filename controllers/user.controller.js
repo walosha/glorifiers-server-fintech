@@ -250,7 +250,7 @@ class UserController {
   }
 
   static validateResetToken(req, res, next) {
-    validateResetToken(req.params)
+    validateResetToken(req.params.token)
       .then(() =>
         res.json({
           status: "Success",
