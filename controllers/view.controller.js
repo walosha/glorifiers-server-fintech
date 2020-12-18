@@ -27,14 +27,14 @@ class ViewController {
 
   static async verifyEmail(req, res, next) {
     try {
-      await verifyEmail(req.params.verificationToken);
+      const email = await verifyEmail(req.params.verificationToken, res);
       return handleSuccessResponse(
         res,
-        "Email Verification successful, you can now login",
+        `Your email:${email} was successful Verified, you can now login`,
         200
       );
     } catch (error) {
-      console.log(error);
+      console.log({ error: error.message });
       return handleErrorResponse(res, error, 404);
     }
   }

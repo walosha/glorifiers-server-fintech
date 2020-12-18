@@ -25,11 +25,7 @@ router.post(
   validate.validateBody(validate.schemas.revokeTokenSchema),
   UserController.revokeToken
 );
-router.post(
-  "/validate-reset-token",
-  validate.validateBody(validate.schemas.validateResetTokenSchema),
-  UserController.validateResetToken
-);
+router.post("/validate-reset-token/:token", UserController.validateResetToken);
 
 router.post("/forgot-password", UserController.forgotPassword);
 router.post("/reset-password/:token", UserController.resetPassword);

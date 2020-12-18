@@ -32,7 +32,7 @@ class PaymentController {
     if (!userWallet) {
       return handleSuccessResponse(
         res,
-        "Kindly fund your account and create a wallet to make withdrawal",
+        "Kindly fund your account to create a wallet to make withdrawal",
         401
       );
     }

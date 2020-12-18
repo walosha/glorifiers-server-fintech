@@ -3,7 +3,6 @@
  *
  * @format
  */
-const { Op } = require("sequelize");
 import { User, Wallet } from "../models";
 const aws = require("aws-sdk");
 const { v4: uuidv4 } = require("uuid");
@@ -201,18 +200,6 @@ class UserController {
       200
     );
   }
-  static async validateResetToken({ token }) {
-    const account = await User.findOne({
-      where: {
-        resetToken: token,
-        resetTokenExpires: { [Op.gt]: Date.now() },
-      },
-    });
-
-    if (!account) throw "Invalid token";
-
-    return account;
-  }
 
   static async resetPassword(req, res, next) {
     const { token, password } = req.body;
@@ -254,7 +241,7 @@ class UserController {
   }
 
   static validateResetToken(req, res, next) {
-    validateResetToken(req.body)
+    validateResetToken(req.params)
       .then(() =>
         res.json({
           status: "Success",

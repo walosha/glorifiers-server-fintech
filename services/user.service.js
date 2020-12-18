@@ -1,3 +1,4 @@
+const { Op } = require("sequelize");
 import { User, RefreshToken } from "../models";
 import {
   generateToken,
@@ -6,6 +7,7 @@ import {
   basicDetails,
   randomTokenString,
 } from "../helpers/utils";
+import appError from "../helpers/appError";
 
 async function generateRefreshToken(account, ipAddress) {
   console.log("generateRefreshToken");
@@ -18,22 +20,18 @@ async function generateRefreshToken(account, ipAddress) {
   });
 }
 
-export const verifyEmail = async function (token) {
+export const verifyEmail = async function (token, res) {
   const account = await User.findOne({
     where: { verificationToken: token },
   });
 
   if (!account)
-    return Promise.reject(
-      new Error({
-        message: "Email Verification failed",
-        status: 404,
-      })
-    );
+    return handleErrorResponse(res, "Email verification FAILED", 404);
 
   account.verified = Date.now();
   account.isVerified = true;
   await account.save();
+  return account.email;
 };
 
 export const authenticate = async function (
