@@ -13,7 +13,7 @@ module.exports = (sequelize, DataTypes) => {
         required: true,
       },
       accountNumber: {
-        type: DataTypes.DOUBLE,
+        type: DataTypes.UUID,
         required: true,
       },
       type: {

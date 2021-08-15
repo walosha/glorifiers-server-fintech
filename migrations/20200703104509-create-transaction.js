@@ -11,8 +11,9 @@ module.exports = {
         required: true,
       },
       accountNumber: {
-        type: Sequelize.DOUBLE,
+        type: Sequelize.UUID,
         required: true,
+        unique: true,
       },
       type: {
         type: Sequelize.ENUM(["transfer", "debit", "funding", "loan"]),
