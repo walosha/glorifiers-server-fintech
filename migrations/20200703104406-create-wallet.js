@@ -6,10 +6,17 @@ module.exports = {
         required: true,
         primaryKey: true,
       },
-      accountNumber: {
-        type: Sequelize.DOUBLE,
-        required: true,
+      customerId: {
+        type: Sequelize.UUID,
         unique: true,
+        allowNull: false,
+        onUpdate: "CASCADE",
+        onDelete: "CASCADE",
+        references: {
+          model: "Users",
+          key: "id",
+          as: "customerId",
+        },
       },
       balance: {
         type: Sequelize.DOUBLE,
@@ -29,5 +36,14 @@ module.exports = {
         type: Sequelize.DATE,
       },
     }),
-  down: (queryInterface, Sequelize) => queryInterface.dropTable("Wallets"),
+  down: (queryInterface, Sequelize) => {
+    return Promise.all([
+      queryInterface.dropTable("Wallets"),
+      queryInterface.changeColumn("Wallets", "id", {
+        type: Sequelize.DOUBLE,
+        required: true,
+        primaryKey: true,
+      }),
+    ]);
+  },
 };

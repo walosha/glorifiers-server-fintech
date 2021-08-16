@@ -11,7 +11,7 @@ module.exports = {
         required: true,
       },
       accountNumber: {
-        type: Sequelize.UUID,
+        type: Sequelize.DOUBLE,
         required: true,
         unique: true,
       },
