@@ -67,14 +67,15 @@ class UserController {
       // send email
       await new Email(user, resetURL).sendVerifyEmail();
       newUser = pickUser(user.dataValues);
+      return handleSuccessResponse(res, newUser, 201);
     } catch (e) {
-      console.log({ e });
       if (e.original.code === "23505") {
-        return handleErrorResponse(res, e.original.detail, 409);
+        let emailOrPhone = e.original.detail.split("=")[1];
+        emailOrPhone = emailOrPhone.match(/\((.*?)\)/)[1];
+        return handleErrorResponse(res, emailOrPhone, 409);
       }
       return handleErrorResponse(res, e, 500);
     }
-    return handleSuccessResponse(res, newUser, 201);
   }
 
   static async getSignedUrl(req, res, next) {
@@ -147,7 +148,7 @@ class UserController {
 
       const ipAddress = req.ip;
 
-      const { refreshToken, token, ...account } = await authenticate(
+      return await authenticate(
         {
           email,
           password,
@@ -155,17 +156,6 @@ class UserController {
         },
         res
       );
-
-      setTokenCookie(res, refreshToken);
-
-      return res.status(200).json({
-        status: "success",
-        data: {
-          ...account,
-        },
-        refreshToken,
-        token,
-      });
     } catch (error) {
       console.log({ error });
       return handleErrorResponse(res, error.message, 500);

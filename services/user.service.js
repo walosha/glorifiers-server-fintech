@@ -9,6 +9,18 @@ import {
 } from "../helpers/utils";
 import appError from "../helpers/appError";
 
+function setTokenCookie(res, token) {
+  // create cookie with refresh token that expires in 7 days
+  const cookieOptions = {
+    maxAge: 60 * 60 * 1000, // 1 hour
+    httpOnly: true,
+    secure: true,
+    sameSite: true,
+    expires: new Date(Date.now() + 7 * 24 * 60 * 60 * 1000),
+  };
+  res.cookie("refreshToken", token, cookieOptions);
+}
+
 async function generateRefreshToken(account, ipAddress) {
   console.log("generateRefreshToken");
   // create a refresh token that expires in 7 days
@@ -64,12 +76,16 @@ export const authenticate = async function (
   // save refresh token
   refreshToken.save();
 
-  // return basic details and tokens
-  return {
-    ...basicDetails(account),
-    token,
+  setTokenCookie(res, refreshToken.token);
+
+  return res.status(200).json({
+    status: "success",
+    data: {
+      ...basicDetails(account),
+    },
     refreshToken: refreshToken.token,
-  };
+    token,
+  });
 };
 
 export async function validateResetToken(token) {

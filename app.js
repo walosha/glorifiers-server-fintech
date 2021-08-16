@@ -3,7 +3,6 @@ import path from "path";
 import express, { request } from "express";
 import morgan from "morgan";
 const cors = require("cors");
-import bodyParser from "body-parser";
 import cookieParser from "cookie-parser";
 const rateLimit = require("express-rate-limit");
 const helmet = require("helmet");

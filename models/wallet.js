@@ -3,15 +3,9 @@ module.exports = (sequelize, DataTypes) => {
     "Wallet",
     {
       id: {
-        type: DataTypes.UUID,
-        defaultValue: DataTypes.UUIDV4,
-        required: true,
-        primaryKey: true,
-      },
-      accountNumber: {
         type: DataTypes.DOUBLE,
         required: true,
-        unique: true,
+        primaryKey: true,
       },
       customerId: {
         type: DataTypes.UUID,

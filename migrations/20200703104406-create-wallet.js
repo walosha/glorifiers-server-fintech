@@ -2,7 +2,7 @@ module.exports = {
   up: (queryInterface, Sequelize) =>
     queryInterface.createTable("Wallets", {
       id: {
-        type: Sequelize.UUID,
+        type: Sequelize.DOUBLE,
         required: true,
         primaryKey: true,
       },
@@ -10,18 +10,6 @@ module.exports = {
         type: Sequelize.DOUBLE,
         required: true,
         unique: true,
-      },
-      customerId: {
-        type: Sequelize.UUID,
-        unique: true,
-        allowNull: false,
-        onUpdate: "CASCADE",
-        onDelete: "CASCADE",
-        references: {
-          model: "Users",
-          key: "id",
-          as: "customerId",
-        },
       },
       balance: {
         type: Sequelize.DOUBLE,
