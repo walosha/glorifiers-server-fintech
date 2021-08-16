@@ -1,5 +1,5 @@
 import { Funding, Wallet, User, Transaction } from "../models";
-const Sequelize = require("sequelize");
+import db from "../models";
 
 /**
  * @description Generate random numbers
@@ -17,7 +17,7 @@ export const generateNumber = () => {
 const fundingService = async (amount, reference, email) => {
   let accountNumber;
   try {
-    const result = await Sequelize.transaction(async (t) => {
+    const result = await db.Sequelize.connection.transaction(async (t) => {
       //convert kobo to naira
       amount /= 100;
       const user = await User.findOne({
