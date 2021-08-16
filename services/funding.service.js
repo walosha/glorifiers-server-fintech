@@ -17,7 +17,7 @@ export const generateNumber = () => {
 const fundingService = async (amount, reference, email) => {
   let accountNumber;
   try {
-    const result = await db.transaction(async (t) => {
+    const result = await db.sequelize.transaction(async (t) => {
       //convert kobo to naira
       amount /= 100;
       const user = await User.findOne({
