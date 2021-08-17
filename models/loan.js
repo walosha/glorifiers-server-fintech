@@ -12,10 +12,6 @@ module.exports = (sequelize, DataTypes) => {
         type: DataTypes.STRING,
         required: true,
       },
-      customerId: {
-        type: DataTypes.UUID,
-        required: true,
-      },
       amount: {
         type: DataTypes.DOUBLE,
         required: true,
@@ -43,13 +39,9 @@ module.exports = (sequelize, DataTypes) => {
     {}
   );
   Loan.associate = (models) => {
-    Loan.hasOne(models.Transaction, {
+    Loan.belongsTo(models.User, {
       foreignKey: "id",
-      as: "transactionId",
-    });
-    Loan.belongsTo(models.Wallet, {
-      foreignKey: "customerId",
-      as: "walletId",
+      as: "customerId",
     });
   };
   return Loan;

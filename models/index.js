@@ -4,10 +4,11 @@ const fs = require("fs");
 const path = require("path");
 const Sequelize = require("sequelize");
 const basename = path.basename(__filename);
-const dbConfig = require("../configs/config");
+const dbConfig = require("../config/config");
 const db = {};
 
 const sequelize = new Sequelize(process.env.POSTGRESQL_DATABASE_URL, {
+  host: process.env.POSTGRESQL_DATABASE_URL,
   dialect: "postgres",
   rejectUnauthorized: false,
   dialectOptions: {
