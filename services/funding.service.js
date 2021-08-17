@@ -68,7 +68,7 @@ const fundingService = async (amount, reference, email) => {
         accountNumber || userWallet.accountNumber
       } with =N=${amount}`;
       transaction.type = "funding";
-      comsole.log({ transaction });
+      console.log({ transaction });
       await transaction.save();
       return funding;
     });
